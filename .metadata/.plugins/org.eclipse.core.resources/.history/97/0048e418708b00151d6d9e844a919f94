@@ -1,0 +1,82 @@
+
+
+import java.util.LinkedList;
+
+/**
+ * A class to maintain a way with given parameters found in OSM/XML data.
+ * 
+ * @author Paul Smith
+ *
+ */
+public class GraphWay {
+	// all nodes on this path ( ref0 -> ref1 -> ref2  -> ...)
+	private LinkedList<Long> refs;
+	private long id;
+    private String type;
+    private String name;
+    private String other_tags;
+
+	/**
+	 * Constructor to create an empty way.
+	 */
+	public GraphWay() {
+		this.refs = new LinkedList<Long>();
+		this.id = 0;
+	}
+	/**
+	 * Constructor to create a coordinate with given parameters.
+	 * 
+	 * @param refs  a LinkedList of Integers, references to GraphNodes
+	 * @param id the id of this way
+	 * @param wheelchair the value concerning the wheelchair attribute
+	 * @param level the level of this way
+	 */
+	public GraphWay(LinkedList<Long> refs, int id) {
+		this.refs = refs;
+		this.id = id;
+
+	}
+	
+	public LinkedList<Long> getRefs() {
+		return refs;
+	}
+	
+	public long getId() {
+		return id;
+	}
+	
+	
+	public void setRefs(LinkedList<Long> refs) {
+		this.refs = refs;
+	}
+	
+	public void setId(long l) {
+		this.id = l;
+	}
+	
+	
+	public void addRef(long ref){
+		this.refs.add(new Long(ref));
+	}
+    public void setType(String type){
+		this.type = type;
+	}
+    
+    public void setName(String name) {
+		this.name = name;
+	}
+    
+    public void setOtherTags(String other_tags) {
+		this.other_tags = other_tags;
+	}
+	
+/*	public String toString(){
+		String ret = "\nWay(" + this.id +"): ";
+		ret += this.wheelchair >= 0 ? "(wheelchair)" : "(non-wheelchair)";
+		ret += "\nRefs:";
+		for(Integer ref: refs){
+			ret += "\n    " + ref.intValue();
+		}
+		return ret;
+	}*/
+}

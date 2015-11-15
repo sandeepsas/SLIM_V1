@@ -1,0 +1,24 @@
+import java.io.FileReader;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import Graph.RoadGraph;
+
+
+public class AlgorithmMain {
+	
+	public static void main(String[] args) throws Exception {
+		RoadGraph g = new RoadGraph();
+
+		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+		factory.setNamespaceAware(true);
+		XmlPullParser xpp = factory.newPullParser();
+		xpp.setInput ( new FileReader ("Data/NYRoads.osm"));
+		g.osmGraphParser(xpp);
+		
+		System.out.println("Graphing Done");
+		
+	}
+
+}
