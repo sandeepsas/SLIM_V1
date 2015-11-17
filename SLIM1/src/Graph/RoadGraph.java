@@ -164,14 +164,7 @@ public class RoadGraph {
 				DirectedEdge tempEdge = new DirectedEdge(firstNode, nextNode,
 						len, way.getSpeedMax(), way.getOneway(),way.getType(),way.getName());
 				edges.add(tempEdge);
-				
-				
-				// Printer
-				DirectedEdge single_edge =  tempEdge;
-				double weight = 60*(single_edge.getLength()/single_edge.speedMax());
-				 System.out.println(single_edge.from().getId()+"-->"+single_edge.to().getId());
-		         System.out.println(single_edge.getName()+"***"+single_edge.getType()+"***"+single_edge.speedMax()+"***"+single_edge.isOneway()+"***"+weight+"\n");
-		        //
+
 				if(!nodes.contains(firstNode)){
 					nodes.add(firstNode);							
 				}
