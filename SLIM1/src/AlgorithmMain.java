@@ -19,7 +19,7 @@ import Graph.RoadGraph;
 public class AlgorithmMain {
 	
 	public static void main(String[] args) throws Exception {
-		PrintStream out = new PrintStream(new FileOutputStream("F:/Grapher.txt"));
+		PrintStream out = new PrintStream(new FileOutputStream("F:/NYRoadsF_Log2.txt"));
 		System.setOut(out);
 		System.out.println("Graphing Started");
 		RoadGraph g = new RoadGraph();
@@ -27,21 +27,21 @@ public class AlgorithmMain {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
 		XmlPullParser xpp = factory.newPullParser();
-		xpp.setInput ( new FileReader ("Data/NYRoads.osm"));
+		xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
 		g.osmGraphParser(xpp);
-		
-		
 		
 		System.out.println("Graphing Done");
 		
-		LinkedList<GraphNode> nodes = g.nodes;
+/*		LinkedList<GraphNode> nodes = g.nodes;
 		LinkedList<DirectedEdge> edges = g.edges;
 		
 		ListIterator<DirectedEdge> listIterator = edges.listIterator();
 		 while (listIterator.hasNext()) {
-	            System.out.println(listIterator.next().from().getId()+"-->"+listIterator.next().to().getId());
-	            System.out.println(listIterator.next().getType()+"***"+listIterator.next().speedMax()+"***"+listIterator.next().isOneway()+"\n");
-	        }
+			 DirectedEdge single_edge = listIterator.next();
+			 double weight = 60*(single_edge.getLength()/single_edge.speedMax());
+			 System.out.println(single_edge.from().getId()+"-->"+single_edge.to().getId());
+	         System.out.println(single_edge.getName()+"***"+single_edge.getType()+"***"+single_edge.speedMax()+"***"+single_edge.isOneway()+"***"+weight+"\n");
+	        }*/
 		
 	}
 

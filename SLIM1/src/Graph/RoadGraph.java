@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import Osm.OsmConstants;
+
 public class RoadGraph {
 
 	public LinkedList<GraphNode> nodes;
@@ -76,6 +78,9 @@ public class RoadGraph {
 									OtherTags ot = parseOtherTags(v);
 									tempWay.setOtherTags(v);
 									tempWay.setOneway(ot.isOneWay);
+									if(ot.maxspeed == -1){
+										ot.maxspeed = OsmConstants.roadTypeToSpeed(tempWay.getType());
+									}
 									tempWay.setSpeedMax(ot.maxspeed);
 
 								}
@@ -146,10 +151,27 @@ public class RoadGraph {
 				GraphNode nextNode = getNode(allNodes,way.getRefs().get(i));
 				double len = distanceInMilesBetweenPoints(firstNode.getLat(),firstNode.getLon(),
 						nextNode.getLat(),nextNode.getLon());
+				
+				if(way.getSpeedMax() == -1){
+					if(tempWay.getType()!=null){
+						way.setSpeedMax(OsmConstants.roadTypeToSpeed(tempWay.getType()));
+					}
+					else{
+						way.setSpeedMax(30);
+					}
+				}
 
 				DirectedEdge tempEdge = new DirectedEdge(firstNode, nextNode,
-						len, way.getSpeedMax(), way.getOneway(),way.getType());
-				edges.add(tempEdge);		
+						len, way.getSpeedMax(), way.getOneway(),way.getType(),way.getName());
+				edges.add(tempEdge);
+				
+				
+				// Printer
+				DirectedEdge single_edge =  tempEdge;
+				double weight = 60*(single_edge.getLength()/single_edge.speedMax());
+				 System.out.println(single_edge.from().getId()+"-->"+single_edge.to().getId());
+		         System.out.println(single_edge.getName()+"***"+single_edge.getType()+"***"+single_edge.speedMax()+"***"+single_edge.isOneway()+"***"+weight+"\n");
+		        //
 				if(!nodes.contains(firstNode)){
 					nodes.add(firstNode);							
 				}
@@ -159,7 +181,9 @@ public class RoadGraph {
 			if(!nodes.contains(firstNode)){
 				nodes.add(firstNode);										
 			}
+
 		}
+
 		return ret;
 	}
 
@@ -262,7 +286,7 @@ public class RoadGraph {
 		OtherTags()
 		{
 			this.isOneWay = false;
-			this.maxspeed = 35;
+			this.maxspeed = -1;
 		}
 	}
 

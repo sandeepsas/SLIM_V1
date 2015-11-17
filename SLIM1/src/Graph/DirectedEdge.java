@@ -27,26 +27,26 @@ public class DirectedEdge {
      * Constructor
      */
     public DirectedEdge(GraphNode startNode, GraphNode endNode,
-    		double length, int speedMax, boolean isOneway, String type ) {
+    		double length, int speedMax, boolean isOneway, String type, String name ) {
         
-    	if (speedMax == 0)
-    		speedMax = 35;
         this.startNode = startNode;
         this.endNode = endNode;
         this.speedMax = speedMax;
         this.isOneway = isOneway;
         this.length = length;
         this.type = type;
+        this.name = name;
     }
     
 	public DirectedEdge() {
 		
         this.startNode = null;
         this.endNode = null;
-        this.speedMax = 0;
+        this.speedMax = -1;
         this.isOneway = false;
         this.length = 0.00;
         this.type = null;
+        this.name = null;
 	}
 	
     public GraphNode from() {
@@ -61,6 +61,10 @@ public class DirectedEdge {
 
     public int speedMax() {
         return speedMax;
+    }
+    
+    public double getLength() {
+        return length;
     }
     
     public boolean isOneway() {
@@ -85,5 +89,10 @@ public class DirectedEdge {
     public String toString() {
         return startNode.getId()  + "->" + endNode.getId() + " " + speedMax;
     }
+
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
+	}
 
 }
