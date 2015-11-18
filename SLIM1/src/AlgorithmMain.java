@@ -19,14 +19,14 @@ import Graph.RoadGraph;
 public class AlgorithmMain {
 	
 	public static void main(String[] args) throws Exception {
-		PrintStream out = new PrintStream(new FileOutputStream("F:/NYRoadsF_Log.txt"));
+		PrintStream out = new PrintStream(new FileOutputStream("F:/NYRoadsF_Log_new1.txt"));
 		System.setOut(out);
 		RoadGraph g = new RoadGraph();
 
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
 		XmlPullParser xpp = factory.newPullParser();
-		xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
+		xpp.setInput ( new FileReader ("Data/NYC_sample.osm"));
 		g.osmGraphParser(xpp);
 		
 		 System.out.println("Start Node, End Node, Street Name, Road Type, Speed Max, Oneway, Travel Time");

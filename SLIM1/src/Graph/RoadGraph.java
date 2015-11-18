@@ -68,6 +68,7 @@ public class RoadGraph {
 										&& xrp.getAttributeValue(i).equals("highway")){		
 									String v = xrp.getAttributeValue(i + 1);
 									tempWay.setType(v);
+									tempWay.setSpeedMax(OsmConstants.roadTypeToSpeed(v));
 								} else if(xrp.getAttributeName(i).equals("k")
 										&& xrp.getAttributeValue(i).equals("name")){	
 									String v = xrp.getAttributeValue(i + 1);
@@ -78,11 +79,9 @@ public class RoadGraph {
 									OtherTags ot = parseOtherTags(v);
 									tempWay.setOtherTags(v);
 									tempWay.setOneway(ot.isOneWay);
-									if(ot.maxspeed == -1){
-										ot.maxspeed = OsmConstants.roadTypeToSpeed(tempWay.getType());
+									if(ot.maxspeed != -1){
+										tempWay.setSpeedMax(ot.maxspeed);
 									}
-									tempWay.setSpeedMax(ot.maxspeed);
-
 								}
 							}
 						}
@@ -151,14 +150,9 @@ public class RoadGraph {
 				GraphNode nextNode = getNode(allNodes,way.getRefs().get(i));
 				double len = distanceInMilesBetweenPoints(firstNode.getLat(),firstNode.getLon(),
 						nextNode.getLat(),nextNode.getLon());
-				
-				if(way.getSpeedMax() == -1){
-					if(tempWay.getType()!=null){
-						way.setSpeedMax(OsmConstants.roadTypeToSpeed(tempWay.getType()));
-					}
-					else{
-						way.setSpeedMax(30);
-					}
+
+				if(way.getType()==null){
+					way.setSpeedMax(30);
 				}
 
 				DirectedEdge tempEdge = new DirectedEdge(firstNode, nextNode,
