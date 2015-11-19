@@ -1,6 +1,12 @@
 package Osm;
 
 public class OsmConstants {
+	
+	/*LatLong for LaG airport*/
+	public static double LaG_lat = 40.776927;
+	public static double LaG_lng = -73.873966;
+	public static String API_KEY = "AIzaSyAkBR5OFsUz1Np0Rg1bJSyb4ObuXYF4to4";
+
 
 	public static int roadTypeToSpeed(String type)
 	{

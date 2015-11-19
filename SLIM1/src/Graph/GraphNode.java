@@ -1,5 +1,7 @@
 package Graph;
 
+import java.util.Set;
+
 /**
  * 
  * @author Sandeep Sasidharan
@@ -10,6 +12,8 @@ public class GraphNode {
 	private double lat;
 	private String name;
 	private long id;
+	private Set<GraphNode> walking_nodes;
+	private float driving_time;
 	
 
 	public GraphNode() {
@@ -57,10 +61,30 @@ public class GraphNode {
 	public void setId(long l){
 		this.id = l;
 	}
+	public void setWalkingNodes(Set<GraphNode> wn){
+		this.walking_nodes = wn;
+	}
+	public Set<GraphNode>  getWalkingNodes(){
+		return walking_nodes;
+	}
+	public void setDrivingTime(float dt){
+		this.driving_time= dt;
+	}
+	public float getDrivingTime(){
+		return driving_time;
+	}
+
 	
 	public boolean equals(GraphNode node){
 		if(node == null)
 			return false;
 		return this.getId()==node.getId();
 	}
+	
+	public String toString(){
+		String rt_str;
+		rt_str = "("+this.lat+ "," + this.lon+")";
+		return	rt_str;
+	}
+	
 }

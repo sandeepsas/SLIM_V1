@@ -85,7 +85,13 @@ public class DirectedEdge {
     public void setOtherTags(String other_tags) {
 		this.other_tags = other_tags;
 	}
-
+    
+    public float getWeight(){
+		float time =0;
+		time = (float) (this.length/this.speedMax);
+    	return (time*60);
+	}
+    
     public String toString() {
         return startNode.getId()  + "->" + endNode.getId() + " " + speedMax;
     }
