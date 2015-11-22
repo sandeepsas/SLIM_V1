@@ -28,7 +28,8 @@ import Graph.RoadGraph;
 
 
 public class iGen {
-	public static void main(String[] args) throws Exception {
+
+	public static void osmToXml() throws Exception {
 
 		System.out.println("Process started at"+ LocalDateTime.now() );
 		RoadGraph g = new RoadGraph();
@@ -38,7 +39,7 @@ public class iGen {
 		factory.setNamespaceAware(true);
 		XmlPullParser xpp = factory.newPullParser();
 		xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
-		//xpp.setInput ( new FileReader ("Data/NYC_sample.osm")); //Chenge Dia
+		//xpp.setInput ( new FileReader ("Data/NYC_sample.osm")); //Change Dia
 		g.osmGraphParser(xpp);
 
 		System.out.println("Parsing Completed at"+ LocalDateTime.now() );
@@ -54,7 +55,7 @@ public class iGen {
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("Graph");
 			doc.appendChild(rootElement);
-			
+
 			Element rootElement1 = doc.createElement("GraphNodes");
 			rootElement.appendChild(rootElement1);
 
@@ -62,7 +63,7 @@ public class iGen {
 			//Adding vertices
 			while (nodeIterator_t.hasNext()) {
 				GraphNode single_node= nodeIterator_t.next();
-				
+
 				// staff elements
 				Element node = doc.createElement("Node");
 				rootElement1.appendChild(node);
@@ -79,49 +80,47 @@ public class iGen {
 				node.appendChild(lon);
 
 			}
-			
+
 			Element rootElement2 = doc.createElement("GraphWays");
 			rootElement.appendChild(rootElement2);
-			
+
 			ListIterator<DirectedEdge> listIterator_t = edges.listIterator();
 			while (listIterator_t.hasNext()) {
 				DirectedEdge single_edge = listIterator_t.next();
-				
+
 				Element way = doc.createElement("Way");
 				rootElement2.appendChild(way);
-				
+
 				way.setAttribute("id", ""+single_edge.getWayId());
-				
+
 				Element source = doc.createElement("source");
 				source.appendChild(doc.createTextNode(""+single_edge.from().getId()));
 				way.appendChild(source);
-				
+
 				Element destination = doc.createElement("destination");
 				destination.appendChild(doc.createTextNode(""+single_edge.to().getId()));
 				way.appendChild(destination);
-				
+
 				Element weight = doc.createElement("weight");
 				weight.appendChild(doc.createTextNode(""+single_edge.getWeight()));
 				way.appendChild(weight);
-				
+
 				Element oneway = doc.createElement("oneway");
 				oneway.appendChild(doc.createTextNode(""+single_edge.isOneway()));
 				way.appendChild(oneway);
-				
+
 				Element name = doc.createElement("name");
 				name.appendChild(doc.createTextNode(""+single_edge.getName()));
 				way.appendChild(name);
-				
-				
+
+
 			}
-			
-			
-			
+
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("G:\\NYCRoadsF.xml"));
+			StreamResult result = new StreamResult(new File("Data\\NYCRoadsF.xml"));
 			transformer.transform(source, result);
 
 			System.out.println("File saved!");

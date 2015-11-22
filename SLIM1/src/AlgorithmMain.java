@@ -40,22 +40,17 @@ public class AlgorithmMain {
 		PrintStream out = new PrintStream(new FileOutputStream("G:/NYCF_fullRunLOG_clean1.txt"));
 		System.setOut(out);
 		System.out.println("Process started at"+ LocalDateTime.now() );
-		RoadGraph g = new RoadGraph();
+		
+		//Generate XML 
+		//iGen.osmToXml();
+		
+		GraphNode hub_node = new GraphNode();
 
-		//Import data and parse osm
-		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-		factory.setNamespaceAware(true);
-		XmlPullParser xpp = factory.newPullParser();
-		xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
-		//xpp.setInput ( new FileReader ("Data/NYC_sample.osm")); //Chenge Dia
-		g.osmGraphParser(xpp);
-
-		System.out.println("Parsing Completed at"+ LocalDateTime.now() );
 
 		//Fetch the nodes and edges
 		LinkedList<GraphNode> nodes = g.nodes;
 		LinkedList<DirectedEdge> edges = g.edges;
-		GraphNode hub_node = g.getLgaNode();
+		
 		System.out.println(hub_node.toString());
 		//Consistancy checker for edge
 		ListIterator<DirectedEdge> temp_itr = edges.listIterator();
