@@ -1,7 +1,7 @@
 package Osm;
 
 public class OsmConstants {
-	
+
 	/*LatLong for LaG airport*/
 	public static double LaG_lat = 40.776927;
 	public static double LaG_lng = -73.873966;
@@ -55,8 +55,9 @@ public class OsmConstants {
 		case "trunk_link":
 			speed =35;
 			break;
-			
-			
+		default:
+			speed =20;
+
 		}
 		return speed;
 	}

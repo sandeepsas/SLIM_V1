@@ -20,13 +20,14 @@ public class GraphNode {
 		this.lon = 0.0;
 		this.lat = 0.0;
 		this.name = null;
+		this.id = 0;
 	}
 	
 
-	public GraphNode(double lon, double lat, String name) {
+	public GraphNode(double lon, double lat, long id) {
 		this.lon = lon;
 		this.lat = lat;
-		this.name = name;
+		this.id = id;
 	}
 	
 

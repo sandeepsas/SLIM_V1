@@ -17,6 +17,7 @@ public class RoadGraph {
 
 	public LinkedList<GraphNode> nodes;
 	public LinkedList<DirectedEdge> edges;
+	public GraphNode LGA_NODE; 
 
 	public RoadGraph(){
 		nodes = new LinkedList<GraphNode>();
@@ -24,6 +25,7 @@ public class RoadGraph {
 	}
 	public boolean osmGraphParser(XmlPullParser xrp) throws XmlPullParserException, IOException{
 		boolean ret = false;
+		boolean lga_node_set = false;
 		boolean isOsmData = false;	
 		GraphNode tempNode = new GraphNode();					
 		GraphNode NULL_NODE = new GraphNode();					
@@ -109,6 +111,15 @@ public class RoadGraph {
 						ret = true;
 					} else if(xrp.getName().equals("node")){						
 						allNodes.add(tempNode);
+						
+						double latti = tempNode.getLat();
+						double longi = tempNode.getLon();
+						double disti = distanceInMilesBetweenPoints(OsmConstants.LaG_lat, OsmConstants.LaG_lng, latti, longi);
+						if((disti< 0.2) && (lga_node_set == false) )
+						{
+							LGA_NODE = tempNode;
+							lga_node_set = true;
+						}
 						tempNode = NULL_NODE;		
 					} else if(xrp.getName().equals("tag")){							
 
@@ -154,9 +165,11 @@ public class RoadGraph {
 				if(way.getType()==null){
 					way.setSpeedMax(30);
 				}
+				float travel_time_weight = (float) (len/way.getSpeedMax());
 
 				DirectedEdge tempEdge = new DirectedEdge(firstNode, nextNode,
-						len, way.getSpeedMax(), way.getOneway(),way.getType(),way.getName());
+						len, way.getSpeedMax(), way.getOneway(),way.getType(),
+						way.getName(),travel_time_weight,way.getId());
 				edges.add(tempEdge);
 
 				if(!nodes.contains(firstNode)){
@@ -200,7 +213,11 @@ public class RoadGraph {
 					}
 					else if(flag ==2){
 						String[] maxspeed = m.group(1).split("\\s+");
-						output.maxspeed = Integer.parseInt(maxspeed[0]);
+						try{
+							output.maxspeed = Integer.parseInt(maxspeed[0]);
+						}catch (NumberFormatException nfe){
+							System.out.println("NFE "+maxspeed[0]);
+						}
 						flag =0;
 					}
 				}
@@ -258,6 +275,10 @@ public class RoadGraph {
 		double dist = earthRadius * c;
 
 		return dist;
+	}
+	
+	public GraphNode getLgaNode(){
+		return this.LGA_NODE;
 	}
 
 	class OtherTags

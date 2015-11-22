@@ -22,12 +22,16 @@ public class DirectedEdge {
     private String type;
     private String name;
     private String other_tags;
+    
+    private float weight;
+    private long way_id; 
 
     /**
      * Constructor
      */
     public DirectedEdge(GraphNode startNode, GraphNode endNode,
-    		double length, int speedMax, boolean isOneway, String type, String name ) {
+    		double length, int speedMax, boolean isOneway, 
+    		String type, String name, float weight, long way_id ) {
         
         this.startNode = startNode;
         this.endNode = endNode;
@@ -36,6 +40,8 @@ public class DirectedEdge {
         this.length = length;
         this.type = type;
         this.name = name;
+        this.weight = weight;
+        this.way_id = way_id;
     }
     
 	public DirectedEdge() {
@@ -47,6 +53,8 @@ public class DirectedEdge {
         this.length = 0.00;
         this.type = null;
         this.name = null;
+        this.weight = 0;
+        this.way_id = 0;
 	}
 	
     public GraphNode from() {
@@ -78,6 +86,13 @@ public class DirectedEdge {
 		return type;
 	}
     
+    public void setWayId(long way_id){
+		this.way_id = way_id;
+	}
+    public long getWayId(){
+		return this.way_id;
+	}
+    
     public void setName(String name) {
 		this.name = name;
 	}
@@ -87,9 +102,7 @@ public class DirectedEdge {
 	}
     
     public float getWeight(){
-		float time =0;
-		time = (float) (this.length/this.speedMax);
-    	return (time*60);
+    	return (this.weight*60);
 	}
     
     public String toString() {
