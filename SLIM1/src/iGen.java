@@ -29,7 +29,7 @@ import Graph.RoadGraph;
 
 public class iGen {
 
-	public static void osmToXml() throws Exception {
+	public static void osm2Xml() throws Exception {
 
 		System.out.println("Process started at"+ LocalDateTime.now() );
 		RoadGraph g = new RoadGraph();
@@ -38,8 +38,8 @@ public class iGen {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
 		XmlPullParser xpp = factory.newPullParser();
-		xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
-		//xpp.setInput ( new FileReader ("Data/NYC_sample.osm")); //Change Dia
+		//xpp.setInput ( new FileReader ("Data/NYCRoadsF.osm"));
+		xpp.setInput ( new FileReader ("Data/NYC_sample.osm")); //Change Dia
 		g.osmGraphParser(xpp);
 
 		System.out.println("Parsing Completed at"+ LocalDateTime.now() );
@@ -94,13 +94,35 @@ public class iGen {
 				way.setAttribute("id", ""+single_edge.getWayId());
 
 				Element source = doc.createElement("source");
-				source.appendChild(doc.createTextNode(""+single_edge.from().getId()));
+				Element source_id = doc.createElement("source_id");
+				source_id.appendChild(doc.createTextNode(""+single_edge.from().getId()));
+				source.appendChild(source_id);
+				
+				Element source_lat = doc.createElement("source_lat");
+				source_lat.appendChild(doc.createTextNode(""+single_edge.from().getLat()));
+				source.appendChild(source_lat);
+				
+				Element source_lon = doc.createElement("source_lon");
+				source_lon.appendChild(doc.createTextNode(""+single_edge.from().getLon()));
+				source.appendChild(source_lon);
 				way.appendChild(source);
 
 				Element destination = doc.createElement("destination");
-				destination.appendChild(doc.createTextNode(""+single_edge.to().getId()));
+				
+				Element dest_id = doc.createElement("dest_id");
+				dest_id.appendChild(doc.createTextNode(""+single_edge.to().getId()));
+				destination.appendChild(dest_id);
+				
+				Element dest_lat = doc.createElement("dest_lat");
+				dest_lat.appendChild(doc.createTextNode(""+single_edge.to().getLat()));
+				destination.appendChild(dest_lat);
+				
+				Element dest_lon = doc.createElement("dest_lon");
+				dest_lon.appendChild(doc.createTextNode(""+single_edge.to().getLon()));
+				destination.appendChild(dest_lon);
+				
 				way.appendChild(destination);
-
+				
 				Element weight = doc.createElement("weight");
 				weight.appendChild(doc.createTextNode(""+single_edge.getWeight()));
 				way.appendChild(weight);
@@ -120,7 +142,7 @@ public class iGen {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("Data\\NYCRoadsF.xml"));
+			StreamResult result = new StreamResult(new File("G:\\NYCRoadsF_1.xml"));
 			transformer.transform(source, result);
 
 			System.out.println("File saved!");
